@@ -1,0 +1,3 @@
+useDynLib(Boggler)
+exportPattern("^[[:alpha:]]+")
+importFrom(Rcpp, evalCpp)

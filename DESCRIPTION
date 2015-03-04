@@ -1,0 +1,17 @@
+Package: Boggler
+Type: Package
+Title: Boggle Game & Solver (French)
+Version: 1.0
+Date: 2015-03-02
+Author: Dominic Comtois
+Maintainer: Dominic Comtois <dominic.comtois@gmail.com>
+Description: Play Boggle or solve a Boggle game using
+             Play.Boggle() and Solve.Boggle() functions.
+License: GPL (>= 2)
+Depends:
+    igraph,
+    stringi,
+    tcltk,
+    beepr
+Imports: Rcpp (>= 0.11.4)
+LinkingTo: Rcpp
