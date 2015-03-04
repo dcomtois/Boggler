@@ -1,4 +1,4 @@
-Play.Boggle <- function(shuffle.mode = "obs", time.limit = 120) {
+Play.Boggle <- function(shuffle.mode = "dice", time.limit = 120) {
 
   if(time.limit < 10) {
     stop("le temps limite ne peut \u00eatre de moins de 10 secondes")
