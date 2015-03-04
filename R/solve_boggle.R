@@ -1,4 +1,4 @@
-Solve.Boggle <- function(bog.letters = NA, n.letters = 3:11) {
+Solve.Boggle <- function(bog.letters = NA, n.letters = 3:16) {
 
   base.dir <- find.package("Boggler")
 
@@ -34,12 +34,17 @@ Solve.Boggle <- function(bog.letters = NA, n.letters = 3:11) {
        #edge.width=2,
        edge.color="white")
 
-  last.search.empty = FALSE
+    calc.points <- function(word) {
+    switch(EXPR = as.character(nchar(word)), "3"=1, "4"=1, "5"=2,
+           "6"=3, "7"=5, "8"=11, "9"=20, "10"=50, "11"=100, "12"=150,
+           "13"=200, "14"=250, "15"=250, "16"=250)
+  }
+
+  #last.search.empty = FALSE
   find.words <- function(n.letters) {
     paths <- t(as.matrix(paths.by.length[[n.letters - 2]]))
     longstring <- stri_c(bog.letters[paths], collapse="")
     candidates <- cpp_str_split(longstring, n.letters)[[1]]
-    # candidates <- apply(X = paths, MARGIN = 1, FUN = function(x) stri_c(bog.letters[x], collapse=""))
     dict.words <- dict.fr$mot[dict.fr$taille == n.letters]
     words <- intersect(candidates, dict.words)
     message(n.letters, " ... (", length(words), ")")
@@ -56,5 +61,8 @@ Solve.Boggle <- function(bog.letters = NA, n.letters = 3:11) {
     }
   }
 
-  return(all.words)
+  solutions <- data.frame(mot = all.words, pts = sapply(all.words, calc.points), stringsAsFactors = FALSE)
+  rownames(solutions) <- NULL
+  return(solutions)
+
 }
