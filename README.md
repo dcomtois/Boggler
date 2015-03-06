@@ -1,5 +1,5 @@
 # Boggler
-### Generate solutions and play Boggle (in French only... for now!)
+### Generate solutions and play Boggle (in English or French)
 
 #### Getting Started
 First, install the package:
@@ -9,7 +9,7 @@ library(devtools)
 install_github("dcomtois/Boggler")
 ```
 
-Next, just use one of `Play.Boggle()` or `Solve.Boggle()` functions. That's it!
+Next, just use one of `Play.Boggle()` or `Solve.Boggle()` functions, specifying the language as argument. That's it!
 
 #### What to expect
 When you use `Play.Boggle()`, the letters are shuffled and you get a plot looking like this one:
@@ -20,7 +20,7 @@ Behind the scenes, letters are connected via an igraph:
 
 #### Et puis après?
 ```r
-> Play.Boggle()
+> Play.Boggle("fr") # use "en" for English
 Veuillez patienter pendant la recherche des solutions...
 
 1: ait

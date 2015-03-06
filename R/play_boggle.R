@@ -1,26 +1,59 @@
-Play.Boggle <- function(shuffle.mode = "dice", time.limit = 120) {
+Play.Boggle <- function(lang = "fr", shuffle.mode = "dice", time.limit = 120) {
+
+  msgs <- list()
+  if(lang == "fr") {
+    msgs <- list(limit.err = "le temps limite ne peut \u00eatre de moins de 10 secondes",
+                 charging = "chargement des fonctions",
+                 mode.err = "shuffle.mode doit \u00eatre 'dice' ou 'obs'",
+                 patient = "Veuillez patienter pendant la recherche des solutions",
+                 time.is.up = "Temps \u00e9coul\u00e9!",
+                 quit = 'Entrer "q" pour quitter\n',
+                 min.letters = "Seuls les mots de 3 lettres ou plus sont accept\u00e9s\n",
+                 already.entered = "Mot d\u00e9j\u00e0 entr\u00e9 (temps restant: ",
+                 invalid.word = "Mot non valide (temps restant: ",
+                 conclusion = "\nMaximum possible : %i (solutions cherch\u00e9es jusqu'\u00e0 %i lettres)")
+  }
+
+  else if(lang == "en") {
+    msgs <- list(limit.err = "time limit cannot be less than 10 seconds",
+                 charging = "loading functions",
+                 mode.err = "Shuffle mode must be either 'obs' or 'dice'",
+                 patient = "finding solutions... please wait",
+                 time.is.up = "time's up!",
+                 quit = 'Enter "q" to quit game\n',
+                 min.letters = "Only 3 letter words or more are accepted",
+                 already.entered = "Word already entered (remaining time: ",
+                 invalid.word = "Invalid word (temps restant: ",
+                 conclusion = "\nMaximum score: %i (searched for solutions up to %i letters)")
+  }
 
   if(time.limit < 10) {
-    stop("le temps limite ne peut \u00eatre de moins de 10 secondes")
+    stop(msgs[["limit.err"]])
   }
 
   base.dir <- find.package("Boggler")
 
-  message("Chargement des fonctions...")
+  message(msgs[["charging"]])
 
   # Read relevant RData files
-  load(paste(base.dir, "includes/dict_fr.RData", sep="/"))
-  load(paste(base.dir, "includes/weights_and_dice.RData", sep="/"))
   load(paste(base.dir, "includes/paths_by_length.RData", sep="/"))
+
+  if(lang == "fr") {
+    load(paste(base.dir, "includes/dict_fr.RData", sep="/"))
+    load(paste(base.dir, "includes/weights_and_dice_fr.RData", sep="/"))
+  } else if(lang == "en") {
+    load(paste(base.dir, "includes/dict_en.RData", sep="/"))
+    load(paste(base.dir, "includes/weights_and_dice_en.RData", sep="/"))
+  }
 
   # Define functions
   shuffle <- function(shuffle.mode="obs") {
     if(shuffle.mode == "obs") {
       sample(x = letters, size = 16, replace = TRUE, prob = weights.obs$weight)
     } else if(shuffle.mode == "dice") {
-      sapply(sapply(dice.fr, strsplit, ""), sample, size=1)
+      sapply(sapply(dice, strsplit, ""), sample, size=1)
     } else {
-      stop("Shuffle mode must be either 'obs' or 'dice'")
+      stop(msgs[["mode.err"]])
     }
   }
 
@@ -44,11 +77,11 @@ Play.Boggle <- function(shuffle.mode = "dice", time.limit = 120) {
 
 
   # Find solutions
-  message("Veuillez patienter pendant la recherche des solutions...")
-  solutions <- Solve.Boggle(bog.letters)
+  message(msgs[["patient"]])
+  solutions <- Solve.Boggle(lang = lang, bog.letters = bog.letters, n.letters = 3:16)
 
   # Prepare responses dataframe
-  reponses <- data.frame(mot=character(), pts=numeric(), stringsAsFactors = FALSE)
+  responses <- data.frame(word=character(), pts=numeric(), stringsAsFactors = FALSE)
   time.start <- Sys.time()
 
   shell(cmd = sprintf('Rscript.exe R/progress_bar.R "%i"', time.limit + 1), wait=FALSE)
@@ -67,32 +100,33 @@ Play.Boggle <- function(shuffle.mode = "dice", time.limit = 120) {
     units(time.diff) <- "secs"
 
     if(time.diff > time.limit) {
-      message("Temps \u00e9coul\u00e9!")
+      message(msgs[["time.is.up"]])
       next
     }
 
-
     if(length(word) == 0) {
-      message('Entrer "q" pour quitter\n')
+      message(msgs[["quit"]])
       next
     } else if(tolower(word) == "q") {
       break
     } else if(nchar(word) < 3) {
-      message("Seuls les mots de 3 lettres ou plus sont accept\u00e9s\n")
+      message(msgs[["min.letters"]])
       next
     }
 
-    if(word %in% solutions$mot && !word %in% reponses$mot) {
-      reponses <- rbind(reponses, solutions[which(solutions$mot==word),])
-      message("+", tail(reponses$pts,1), "pt(s) (temps restant: ", round(time.limit - time.diff), " secs)")
+    if(word %in% solutions$word && !word %in% responses$word) {
+      responses <- rbind(responses, solutions[which(solutions$word==word),])
+      message("+", tail(responses$pts,1), "pt(s) (temps restant: ", round(time.limit - time.diff), " secs)")
 
+    } else if(word %in% responses$word) {
+      message(msgs[["already.entered"]], round(time.limit - time.diff), " secs)")
     } else {
-      message("Mot non valide ou d\u00e9j\u00e0 entr\u00e9 (temps restant: ", round(time.limit - time.diff), " secs)")
+      message(msgs[["invalid.word"]], round(time.limit - time.diff), " secs)")
     }
   }
 
-  message("\nTotal: ", sum(reponses$pts), " points!")
-  message(sprintf("\nMaximum possible : %i (solutions cherch\u00e9es jusqu'\u00e0 %i lettres)",
-                  sum(solutions$pts), nchar(tail(solutions$mot,1)) + 1 ))
-  return(invisible(list(reponses=reponses, solutions=solutions)))
+  message("\nTotal: ", sum(responses$pts), " points!")
+  message(sprintf(msgs[["conclusion"]],
+                  sum(solutions$pts), nchar(tail(solutions$word,1)) + 1 ))
+  return(invisible(list(responses=responses, solutions=solutions)))
 }

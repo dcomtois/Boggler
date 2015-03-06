@@ -1,16 +1,13 @@
 # Dictionary sources:
-# http://www.pallier.org/ressources/dicofr/liste.de.mots.francais.frgut.txt"
-# http://www.lexique.org/public/Lexique380.zip
-# https://github.com/inouire/baggle/archive/v3.2.zip
-# http://gboggle.sourceforge.net/
+# http://www.pallier.org/ressources/dicofr/liste.de.mots.francais.frgut.txt" (fr)
+# http://www.lexique.org/public/Lexique380.zip (fr)
+# https://github.com/inouire/baggle/archive/v3.2.zip (fr, en)
+# http://gboggle.sourceforge.net/ (fr, en)
+# http://www-01.sil.org/linguistics/wordlists/english/wordlist/wordsEn.txt (en)
+# http://sourceforge.net/projects/wordlist/files/latest/download (en)
 
 # build.dict <- function(in.file = NA, out.file = NA, header = FALSE, sep = "\t", quote = "",
 #                        fileEncoding = "utf8", ...) {
-#
-#   if(is.na(in.file)) {
-#     base.dir <- find.package("Boggler")
-#     in.file <- paste(base.dir, "inst/includes/dict_concat.csv")
-#   }
 #
 #   words <- read.table(file = in.file, header = header, stringsAsFactors = FALSE,
 #                       sep = sep, quote = quote, fileEncoding = fileEncoding, ...)
@@ -40,10 +37,7 @@
 #   # words <- words[-length(words)]
 #
 #   # save dictionnary data to disk
-#   dict.fr <- data.frame(mot=words, taille=nchar(words))
+#   dict <- data.frame(word=words, length=nchar(words), stringsAsFactors = FALSE)
 #
-#   if(is.na(out.file))
-#     save(dict.fr, file = paste(base.dir, "inst/includes/dict_fr.RData"))
-#   else
-#     save(dict.fr, file = file.out)
+#   save(dict, file = out.file)
 # }
