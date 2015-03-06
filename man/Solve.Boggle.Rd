@@ -3,7 +3,7 @@
 \title{Find all valid words in a Boggle game}
 \description{Finds all valid words from 3 to 16 letters and reports them along with the maximum possible score.}
 \usage{
-Solve.Boggle(bog.letters = NA, n.letters = 3:11)
+Solve.Boggle(bog.letters = NA, n.letters = 3:16)
 }
 \arguments{
   \item{bog.letters}{The 16 letters to be checked for. If not provided, the user will be asked to enter them.}

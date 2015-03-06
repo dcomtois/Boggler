@@ -1,12 +1,14 @@
-# library(tcltk)
-# library(beepr)
-#
-# if(length(commandArgs(trailingOnly = TRUE))==0) {
-#   time.limit <- 120
-# } else {
-#   time.limit <- as.numeric(commandArgs(TRUE)[1])
-# }
-#
+library(tcltk)
+library(beepr)
+
+if(length(commandArgs(trailingOnly = TRUE))==0) {
+  time.limit <- 120
+} else {
+  time.limit <- as.numeric(commandArgs(trailingOnly = TRUE)[1])
+}
+
+#cat("time.limit = ", time.limit)
+
 # # http://www.sciviews.org/_rgui/tcltk/
 # beep(1)
 # pb <- tkProgressBar("Temps restant", "", 0, time.limit, time.limit)

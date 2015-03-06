@@ -5,7 +5,7 @@
   of the Boggle "board"
 }
 \usage{
-Play.Boggle(shuffle.mode = "obs", time.limit = 120)
+Play.Boggle(shuffle.mode = "dice", time.limit = 120)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
