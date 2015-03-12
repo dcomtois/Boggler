@@ -1,13 +1,4 @@
-Solve.Boggle <- function(lang = "fr", bog.letters = NA, n.letters = 3:16) {
-
-  base.dir <- find.package("Boggler")
-
-  load(file = paste(base.dir, "includes/paths_by_length.RData", sep="/"))
-  if(lang == "fr")
-    load(file = paste(base.dir, "includes/dict_fr.RData", sep="/"))
-  else if(lang == "en")
-    load(file = paste(base.dir, "includes/dict_en.RData", sep="/"))
-
+Solve.Boggle <- function(bog.letters = NA, lang = "fr", n.letters = 3:16) {
 
   if(any(is.na(bog.letters))) {
     if(lang == "fr")
@@ -24,6 +15,13 @@ Solve.Boggle <- function(lang = "fr", bog.letters = NA, n.letters = 3:16) {
       stop("number of letters must equal 16, either as a sole string or as a vector of unique characters")
   }
 
+  base.dir <- find.package("Boggler")
+
+  load(file = paste(base.dir, "includes/paths_by_length.RData", sep="/"))
+  if(lang == "fr")
+    load(file = paste(base.dir, "includes/dict_fr.RData", sep="/"))
+  else if(lang == "en")
+    load(file = paste(base.dir, "includes/dict_en.RData", sep="/"))
 
   # Plot the board
   # http://www.r-bloggers.com/going-viral-with-rs-igraph-package/

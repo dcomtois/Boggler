@@ -1,3 +1,7 @@
 useDynLib(Boggler)
-exportPattern("^[[:alpha:]]+")
+# exportPattern("^[[:alpha:]]+")
+export(Play.Boggle)
+export(Solve.Boggle)
+export(build.dict)
+export(build.weights.dice)
 importFrom(Rcpp, evalCpp)

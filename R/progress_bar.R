@@ -7,16 +7,17 @@ if(length(commandArgs(trailingOnly = TRUE))==0) {
   time.limit <- as.numeric(commandArgs(trailingOnly = TRUE)[1])
 }
 
-#cat("time.limit = ", time.limit)
+if(time.limit %in% c(NA, NaN))
+  time.limit <- 10
 
 # http://www.sciviews.org/_rgui/tcltk/
-# beep(1)
-# pb <- tkProgressBar("Temps restant", "", 0, time.limit, time.limit)
-#
-# for(i in time.limit:0) {
-#  setTkProgressBar(pb, i, label = sprintf("%i secondes", i))
-#  Sys.sleep(1)
-# }
-# pb$kill()
-# beep(1)
-# Sys.sleep(2)
+beep(1)
+pb <- tkProgressBar("Temps restant", "", 0, time.limit, time.limit)
+
+for(i in time.limit:0) {
+ setTkProgressBar(pb, i, label = sprintf("%i secondes", i))
+ Sys.sleep(1)
+}
+pb$kill()
+beep(1)
+Sys.sleep(2)

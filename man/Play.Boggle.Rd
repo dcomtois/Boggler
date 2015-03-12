@@ -5,10 +5,11 @@
   of the Boggle "board"
 }
 \usage{
-Play.Boggle(shuffle.mode = "dice", time.limit = 120)
+Play.Boggle(lang = "fr", shuffle.mode = "dice", time.limit = 120)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
+  \item{lang}{Language of the game; one of "fr" (default) and "en"}
   \item{shuffle.mode}{One of "obs" (default) or "dice". The "obs" option uses letter frequencies in the language as weights to the sampling process. "dice" mode replicates the original Boggle dice game.}
   \item{time.limit}{Time limit in seconds. Defaults to 120.}
 }

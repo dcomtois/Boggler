@@ -36,5 +36,35 @@ To get the list of all possible words, just proceed like this:
 ```r
 > solutions <- Play.Boggle()
 ...
-> solutions
+> head(solutions$solutions)
+  word pts
+1  ada   1
+2  ace   1
+3  des   1
+4  dec   1
+5  est   1
+6  sec   1
+> tail(solutions$solutions)
+       word pts
+81   absent   3
+82  destine   5
+83  dentine   5
+84  sentine   5
+85  accents   5
+86 centaine  11
+```
+
+Or, if you forgot to assign the results to a variable:
+
+```r
+> Play.Boggle()
+...
+> tail(.Last.value$solutions)
+       word pts
+81   absent   3
+82  destine   5
+83  dentine   5
+84  sentine   5
+85  accents   5
+86 centaine  11
 ```

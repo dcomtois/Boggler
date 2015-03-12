@@ -11,6 +11,7 @@ Play.Boggle <- function(lang = "fr", shuffle.mode = "dice", time.limit = 120) {
                  min.letters = "Seuls les mots de 3 lettres ou plus sont accept\u00e9s\n",
                  already.entered = "Mot d\u00e9j\u00e0 entr\u00e9 (temps restant: ",
                  invalid.word = "Mot non valide (temps restant: ",
+                 remaining.time = "temps restant: ",
                  conclusion = "\nMaximum possible : %i (solutions cherch\u00e9es jusqu'\u00e0 %i lettres)")
   }
 
@@ -23,7 +24,8 @@ Play.Boggle <- function(lang = "fr", shuffle.mode = "dice", time.limit = 120) {
                  quit = 'Enter "q" to quit game\n',
                  min.letters = "Only 3 letter words or more are accepted",
                  already.entered = "Word already entered (remaining time: ",
-                 invalid.word = "Invalid word (temps restant: ",
+                 invalid.word = "Invalid word (remaining time: ",
+                 remaining.time = "remaining time: ",
                  conclusion = "\nMaximum score: %i (searched for solutions up to %i letters)")
   }
 
@@ -47,7 +49,7 @@ Play.Boggle <- function(lang = "fr", shuffle.mode = "dice", time.limit = 120) {
   }
 
   # Define functions
-  shuffle <- function(shuffle.mode="obs") {
+  shuffle <- function(shuffle.mode="dice") {
     if(shuffle.mode == "obs") {
       sample(x = letters, size = 16, replace = TRUE, prob = weights.obs$weight)
     } else if(shuffle.mode == "dice") {
@@ -78,13 +80,14 @@ Play.Boggle <- function(lang = "fr", shuffle.mode = "dice", time.limit = 120) {
 
   # Find solutions
   message(msgs[["patient"]])
-  solutions <- Solve.Boggle(lang = lang, bog.letters = bog.letters, n.letters = 3:16)
+  solutions <- Solve.Boggle(bog.letters = bog.letters, lang = lang, n.letters = 3:16)
 
   # Prepare responses dataframe
   responses <- data.frame(word=character(), pts=numeric(), stringsAsFactors = FALSE)
   time.start <- Sys.time()
 
-  shell(cmd = sprintf('Rscript.exe R/progress_bar.R "%i"', time.limit + 1), wait=FALSE)
+  #shell(cmd = sprintf('Rscript.exe R/progress_bar.R "%i" > %s', time.limit + 1, paste(base.dir,"out.log",sep="/")), wait=FALSE)
+  shell(cmd = sprintf('Rscript.exe R/progress_bar.R %i', time.limit + 1), wait=FALSE)
 
   repeat {
 
@@ -94,6 +97,7 @@ Play.Boggle <- function(lang = "fr", shuffle.mode = "dice", time.limit = 120) {
     if(time.diff > time.limit)
       break
 
+    cat("\n")
     word <- scan(what = "character", nlines = 1, quiet = TRUE)
 
     time.diff <- Sys.time()-time.start
@@ -116,7 +120,7 @@ Play.Boggle <- function(lang = "fr", shuffle.mode = "dice", time.limit = 120) {
 
     if(word %in% solutions$word && !word %in% responses$word) {
       responses <- rbind(responses, solutions[which(solutions$word==word),])
-      message("+", tail(responses$pts,1), "pt(s) (temps restant: ", round(time.limit - time.diff), " secs)")
+      message("+", tail(responses$pts,1), "pt(s) (", msgs[["remaining.time"]], round(time.limit - time.diff), " secs)")
 
     } else if(word %in% responses$word) {
       message(msgs[["already.entered"]], round(time.limit - time.diff), " secs)")
