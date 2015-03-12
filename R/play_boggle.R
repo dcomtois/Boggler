@@ -86,7 +86,6 @@ Play.Boggle <- function(lang = "fr", shuffle.mode = "dice", time.limit = 120) {
   responses <- data.frame(word=character(), pts=numeric(), stringsAsFactors = FALSE)
   time.start <- Sys.time()
 
-  #shell(cmd = sprintf('Rscript.exe R/progress_bar.R "%i" > %s', time.limit + 1, paste(base.dir,"out.log",sep="/")), wait=FALSE)
   shell(cmd = sprintf('Rscript.exe R/progress_bar.R %i', time.limit + 1), wait=FALSE)
 
   repeat {
