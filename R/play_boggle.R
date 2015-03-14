@@ -11,7 +11,7 @@ Play.Boggle <- function(lang = "fr", shuffle.mode = "dice", time.limit = 120) {
                  min.letters = "Seuls les mots de 3 lettres ou plus sont accept\u00e9s\n",
                  already.entered = "Mot d\u00e9j\u00e0 entr\u00e9 (temps restant: ",
                  invalid.word = "Mot non valide (temps restant: ",
-                 remaining.time = "temps restant: ",
+                 time.left = "temps restant: ",
                  conclusion = "\nMaximum possible : %i (solutions cherch\u00e9es jusqu'\u00e0 %i lettres)")
   }
 
@@ -23,9 +23,9 @@ Play.Boggle <- function(lang = "fr", shuffle.mode = "dice", time.limit = 120) {
                  time.is.up = "time's up!",
                  quit = 'Enter "q" to quit game\n',
                  min.letters = "Only 3 letter words or more are accepted",
-                 already.entered = "Word already entered (remaining time: ",
-                 invalid.word = "Invalid word (remaining time: ",
-                 remaining.time = "remaining time: ",
+                 already.entered = "Word already entered (time left: ",
+                 invalid.word = "Invalid word (time left: ",
+                 time.left = "time left: ",
                  conclusion = "\nMaximum score: %i (searched for solutions up to %i letters)")
   }
 
@@ -86,7 +86,7 @@ Play.Boggle <- function(lang = "fr", shuffle.mode = "dice", time.limit = 120) {
   responses <- data.frame(word=character(), pts=numeric(), stringsAsFactors = FALSE)
   time.start <- Sys.time()
 
-  shell(cmd = sprintf('Rscript.exe R/progress_bar.R %i', time.limit + 1), wait=FALSE)
+  shell(cmd = sprintf('Rscript.exe R/progress_bar.R %i %s', time.limit - 2, lang), wait=FALSE)
 
   repeat {
 
@@ -119,7 +119,7 @@ Play.Boggle <- function(lang = "fr", shuffle.mode = "dice", time.limit = 120) {
 
     if(word %in% solutions$word && !word %in% responses$word) {
       responses <- rbind(responses, solutions[which(solutions$word==word),])
-      message("+", tail(responses$pts,1), "pt(s) (", msgs[["remaining.time"]], round(time.limit - time.diff), " secs)")
+      message("+", tail(responses$pts,1), "pt(s) (", msgs[["time.left"]], round(time.limit - time.diff), " secs)")
 
     } else if(word %in% responses$word) {
       message(msgs[["already.entered"]], round(time.limit - time.diff), " secs)")
