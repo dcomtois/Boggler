@@ -117,11 +117,11 @@ Play.Boggle <- function(lang = "fr", shuffle.mode = "dice", time.limit = 120) {
       next
     }
 
-    if(word %in% solutions$word && !word %in% responses$word) {
-      responses <- rbind(responses, solutions[which(solutions$word==word),])
+    if(word %in% solutions[[1]] && !word %in% responses[[1]]) {
+      responses <- rbind(responses, solutions[which(solutions[[1]]==word),])
       message("+", tail(responses$pts,1), "pt(s) (", msgs[["time.left"]], round(time.limit - time.diff), " secs)")
 
-    } else if(word %in% responses$word) {
+    } else if(word %in% responses[[1]]) {
       message(msgs[["already.entered"]], round(time.limit - time.diff), " secs)")
     } else {
       message(msgs[["invalid.word"]], round(time.limit - time.diff), " secs)")
@@ -130,6 +130,14 @@ Play.Boggle <- function(lang = "fr", shuffle.mode = "dice", time.limit = 120) {
 
   message("\nTotal: ", sum(responses$pts), " points!")
   message(sprintf(msgs[["conclusion"]],
-                  sum(solutions$pts), nchar(tail(solutions$word,1)) + 1 ))
-  return(invisible(list(responses=responses, solutions=solutions)))
+                  sum(solutions$pts), nchar(tail(solutions[[1]],1)) + 1 ))
+
+  rownames(responses) <- NULL
+
+  if(lang=="fr") {
+    colnames(responses) <- c("mot", "pts")
+    return(invisible(list(reponses=responses, solutions=solutions)))
+  } else {
+    return(invisible(list(responses=responses, solutions=solutions)))
+  }
 }

@@ -47,7 +47,7 @@ Solve.Boggle <- function(bog.letters = NA, lang = "fr", n.letters = 3:16) {
            "13"=200, "14"=250, "15"=250, "16"=250)
   }
 
-  #last.search.empty = FALSE
+
   find.words <- function(n.letters) {
     paths <- t(as.matrix(paths.by.length[[n.letters - 2]]))
     longstring <- stri_c(bog.letters[paths], collapse="")
@@ -60,15 +60,20 @@ Solve.Boggle <- function(bog.letters = NA, lang = "fr", n.letters = 3:16) {
 
   all.words <- character(0)
   for(i in n.letters) {
-    words.tmp <- find.words(i)
-    if(length(words.tmp) == 0) {
+    words <- find.words(i)
+    if(length(words) == 0) {
       break
     } else {
-      all.words <- c(all.words, words.tmp)
+      all.words <- c(all.words, words)
     }
   }
 
-  solutions <- data.frame(word = all.words, pts = sapply(all.words, calc.points), stringsAsFactors = FALSE)
+  if(lang=="fr")
+    solutions <- data.frame(mots = all.words, pts = sapply(all.words, calc.points), stringsAsFactors = FALSE)
+  else
+    solutions <- data.frame(word = all.words, pts = sapply(all.words, calc.points), stringsAsFactors = FALSE)
+
+  solutions <- solutions[order(solutions[[2]],solutions[[1]]),]
   rownames(solutions) <- NULL
   return(solutions)
 

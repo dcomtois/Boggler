@@ -10,7 +10,7 @@ if(length(commandArgs(trailingOnly = TRUE))==0) {
 }
 
 if(time.limit %in% c(NA, NaN))
-  time.limit <- 2
+  time.limit <- 1
 
 msg <- ifelse(lang=="fr", "Temps restant", "Time Left")
 secs <- ifelse(lang=="fr", "secondes", "Seconds")
