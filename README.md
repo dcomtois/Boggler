@@ -1,12 +1,14 @@
 # Boggler
 ### Generate solutions and play Boggle (in English or French)
+### Forked from https://github.com/dcomtois/Boggler
+Added support for Finnish language
 
 #### Getting Started
 First, install the package:
 
 ```r
 library(devtools)
-install_github("dcomtois/Boggler")
+install_github("jtuimala/Boggler")
 ```
 
 Next, just use one of `Play.Boggle()` or `Solve.Boggle()` functions, specifying the language as argument. That's it!
@@ -18,7 +20,7 @@ When you use `Play.Boggle()`, the letters are shuffled and you get a plot lookin
 Behind the scenes, letters are connected via an igraph:
 ![Boggle igraph](inst/includes/Boggle_graph.png)
 
-#### Et puis après?
+#### Et puis aprÃ¨s?
 ```r
 > Play.Boggle("fr") # use "en" for English
 Veuillez patienter pendant la recherche des solutions...
