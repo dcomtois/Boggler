@@ -1,18 +1,25 @@
 Solve.Boggle <- function(bog.letters = NA, lang = "fr", n.letters = 3:16) {
 
   if(any(is.na(bog.letters))) {
-    if(lang == "fr")
+    if(lang == "fr") {
       message("Entrer les 16 lettres (4 lettres par ligne ou toutes les lettres sur la 1\u00e8re ligne):")
-    else if(lang == "en")
+    }
+    if(lang == "en") {
       message("Enter the 16 letters (4 per line or all on same line:")
+    }
+    if(lang == "fi") {
+      message("Syötä kirjaimet (4 jokaiselle riville:")
+    }
     bog.letters <- tolower(strsplit(paste(scan(file = "", what = "character", nlines = 4),collapse=""),split = "")[[1]])
   } else if(length(bog.letters) == 1 && nchar(bog.letters) == 16) {
       bog.letters <- tolower(strsplit(paste(bog.letters, sep = ""), split = "")[[1]])
   } else if(length(bog.letters) != 16 || any(mapply(nchar, bog.letters)!=1)) {
     if(lang == "fr")
       stop("le nombre de lettres doit \u00eatre \u00e9gal \u00e0 16, r\u00e9unis dans une seule cha\u00eene de caract\u00e8res, ou un vecteur de caract\u00e8res uniques de taille 16")
-    else if(lang == "en")
+    if(lang == "en")
       stop("number of letters must equal 16, either as a sole string or as a vector of unique characters")
+    if(lang == "fi")
+      stop("Kirjainten määrän tulee olla 16, joko yhtenäisenä merkkijonona tai vektoreina.")
   }
 
   base.dir <- find.package("Boggler")
@@ -20,8 +27,10 @@ Solve.Boggle <- function(bog.letters = NA, lang = "fr", n.letters = 3:16) {
   load(file = paste(base.dir, "includes/paths_by_length.RData", sep="/"))
   if(lang == "fr")
     load(file = paste(base.dir, "includes/dict_fr.RData", sep="/"))
-  else if(lang == "en")
+  if(lang == "en")
     load(file = paste(base.dir, "includes/dict_en.RData", sep="/"))
+  if(lang == "fi")
+    load(file = paste(base.dir, "includes/dict_fi.RData", sep="/"))
 
   # Plot the board
   # http://www.r-bloggers.com/going-viral-with-rs-igraph-package/
