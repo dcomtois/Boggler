@@ -7,7 +7,7 @@ Solve.Boggle(bog.letters = NA, lang = "fr", n.letters = 3:16)
 }
 \arguments{
   \item{bog.letters}{The 16 letters to be checked for. If not provided, the user will be asked to enter them.}
-  \item{lang}{Language of the game; one of "fr" (default) and "en"}
+  \item{lang}{Language of the game; one of "fr" (default), "en" and "fi"}
   \item{n.letters}{Vector indicating the lengths of words to look for. Defaults to 3:11.}
 }
 \references{\url{https://github.com/dcomtois/Boggler}}

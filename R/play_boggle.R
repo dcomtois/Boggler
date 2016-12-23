@@ -15,7 +15,7 @@ Play.Boggle <- function(lang = "fr", shuffle.mode = "dice", time.limit = 120) {
                  conclusion = "\nMaximum possible : %i (solutions cherch\u00e9es jusqu'\u00e0 %i lettres)")
   }
 
-  else if(lang == "en") {
+  if(lang == "en") {
     msgs <- list(limit.err = "time limit cannot be less than 10 seconds",
                  charging = "loading functions",
                  mode.err = "Shuffle mode must be either 'obs' or 'dice'",
@@ -27,6 +27,20 @@ Play.Boggle <- function(lang = "fr", shuffle.mode = "dice", time.limit = 120) {
                  invalid.word = "Invalid word (time left: ",
                  time.left = "time left: ",
                  conclusion = "\nMaximum score: %i (searched for solutions up to %i letters)")
+  }
+
+  if(lang == "fi") {
+    msgs <- list(limit.err = "Aikarajaei voi olla alle 10 sekuntia!",
+                 charging = "Ladataan funtioita...",
+                 mode.err = "Arvontatavan täytyy olla joko 'obs' or 'dice'!",
+                 patient = "Etsitään ratkaisuja... odota...",
+                 time.is.up = "Aika loppui!",
+                 quit = 'Paina "q" poistuaksesi pelistä\n',
+                 min.letters = "Sanojen tulee olla vähintään 3 merkkiä pitkiä!",
+                 already.entered = "Tuo sana on jo löydetty (aikaa jäljellä: ",
+                 invalid.word = "Sanaa ei löydy Kotuksen sanakirjasta (aikaa jäljellä: ",
+                 time.left = "Aikaa jäljellä: ",
+                 conclusion = "\nMaksimipistemäärä: %i (etsittiin ratkaisuja %i kirjaimeen saakka)")
   }
 
   if(time.limit < 10) {
@@ -43,9 +57,14 @@ Play.Boggle <- function(lang = "fr", shuffle.mode = "dice", time.limit = 120) {
   if(lang == "fr") {
     load(paste(base.dir, "includes/dict_fr.RData", sep="/"))
     load(paste(base.dir, "includes/weights_and_dice_fr.RData", sep="/"))
-  } else if(lang == "en") {
+  } 
+  if(lang == "en") {
     load(paste(base.dir, "includes/dict_en.RData", sep="/"))
     load(paste(base.dir, "includes/weights_and_dice_en.RData", sep="/"))
+  } 
+  if(lang == "fi") {
+    load(paste(base.dir, "includes/dict_fi.RData", sep="/"))
+    load(paste(base.dir, "includes/weights_and_dice_fi.RData", sep="/"))
   }
 
   # Define functions
@@ -136,7 +155,7 @@ Play.Boggle <- function(lang = "fr", shuffle.mode = "dice", time.limit = 120) {
 
   if(lang=="fr") {
     colnames(responses) <- c("mot", "pts")
-    return(invisible(list(reponses=responses, solutions=solutions)))
+    return(invisible(list(responses=responses, solutions=solutions)))
   } else {
     return(invisible(list(responses=responses, solutions=solutions)))
   }
