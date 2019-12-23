@@ -1,6 +1,6 @@
 # Boggler
 ### Generate solutions and play Boggle (in English, French or Finnish)
-### Forked from https://github.com/dcomtois/Boggler
+
 Added support for Finnish language ("fi")
 
 #### Getting Started
